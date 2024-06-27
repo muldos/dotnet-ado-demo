@@ -15,4 +15,4 @@ steps:
     jfrogPlatformConnection: 'Soleng Saas CLI'
     command: |
       jf rt ping
-      dotnet --version
+      jf dotnet --version
