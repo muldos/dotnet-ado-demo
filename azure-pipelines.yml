@@ -11,10 +11,15 @@ pool:
 
 steps:
 - task: JfrogCliV2@1
+  workingDirectory: 
   inputs:
     jfrogPlatformConnection: 'Soleng Saas CLI'
+    workingDirectory: App
     command: |
       jf rt ping
+      jf dotnet-config --repo-resolve=dro-backend-nuget-dev-virtual
 - task: CmdLine@2
   inputs:
+    workingDirectory: App
     script: dotnet --version
+    
