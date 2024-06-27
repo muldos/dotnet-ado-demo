@@ -11,9 +11,8 @@ pool:
 
 steps:
 - task: JfrogCliV2@1
-  workingDirectory: 
   inputs:
-    jfrogPlatformConnection: 'Soleng Saas CLI'
+    jfrogPlatformConnection: 'SolengDotnetDemo'
     workingDirectory: App
     command: |
       jf rt ping
