@@ -1,4 +1,5 @@
 # Starter pipeline
+
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -16,9 +17,31 @@ steps:
     workingDirectory: App
     command: |
       jf rt ping
-      jf dotnet-config --repo-resolve=dro-backend-nuget-dev-virtual
-- task: CmdLine@2
+- task: JFrogNuGet@1
   inputs:
-    workingDirectory: App
-    script: dotnet --version
+    command: 'restore'
+    artifactoryConnection: 'Soleng SaaS'
+    targetResolveRepo: 'dro-backend-nuget-dev-virtual'
+    solutionPath: '**/*.sln'
+    collectBuildInfo: true
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    projectKey: 'dro'
+    includeEnvVars: true
+- task: JFrogNuGet@1
+  inputs:
+    command: 'push'
+    artifactoryConnection: 'Soleng SaaS'
+    targetDeployRepo: 'dro-backend-nuget-dev-virtual'
+    pathToNupkg: '*.nupkg'
+    collectBuildInfo: true
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    projectKey: 'dro'
     
+- task: JFrogPublishBuildInfo@1
+  inputs:
+    artifactoryConnection: 'Soleng SaaS'
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    projectKey: 'dro'
